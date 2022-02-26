@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--嵌入CSS-->
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<!--使用字體-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300&display=swap" rel="stylesheet">
+	<!--title-->
+	<title>index</title>
+</head>
+<body>
+	<h2>網頁標題</h2>
+	<p>網頁內文</p>
+	<p>聽說應該要變藍色</p>
+
+	<!--影片嵌入-->
+	<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/J0F0e8jd5xk" title="YouTube video player" frameborder="0" allow="accelerometer" allowfullscreen></iframe>
+
+	<!--字幕處理-->
+	<script src="static/vendor/youtube.external.subtitle/youtube.external.subtitle.js"></script>
+	<script src="static/vendor/subtitles-parser/subtitles.parser.js"></script>
+	<script>
+		var loadSRT = function(url, callback) {
+    		//var httpRequest = new XMLHttpRequest();
+
+	    	//httpRequest.onreadystatechange = function() {
+	      		//if (httpRequest.readyState === XMLHttpRequest.DONE) {
+	      			var data = fs.readFileSync("subtitle_test.srt", "utf8");
+	      			alert("data");
+	        		var subtitles = parser.fromSrt(data, true);
+
+	        		for (var i in subtitles) {
+	          			subtitles[i] = {
+	            			start : subtitles[i].startTime / 1000,
+	            			end   : subtitles[i].endTime / 1000,
+	            			text  : subtitles[i].text
+	          			};
+	        		}
+
+	        		callback(subtitles);
+	      		//}
+	    	//};
+
+	    //httpRequest.open('GET', url, true);
+	    //httpRequest.send(null);
+  		};
+
+	loadSRT('subtitle_test.srt', function(subtitles) {
+    var youtubeExternalSubtitle = new YoutubeExternalSubtitle.Subtitle(document.getElementById('video'), subtitles);
+  });
+	</script>
+</body>
+</html>
